@@ -1,6 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
 import { AppService } from './app.service';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiTags } from '@nestjs/swagger';
 
 //Swagger
 @ApiTags('status')
@@ -11,6 +11,9 @@ export class AppController {
 
   /* CONTROLAR UMA ROTA INDIVIDUALMENTE */
   @Get()
+  @ApiOperation({
+    summary: 'Vizualizar status da aplicação'
+  })
   getAppStatus(): string {
     return this.appService.getAppStatus();
   }

@@ -6,7 +6,6 @@ import { Table } from "./entities/table.entity";
 
 @Injectable()
 export class TableService{
-
   tables: Table[] = [];
 
   constructor(private readonly prisma: PrismaService) {}
@@ -34,5 +33,9 @@ export class TableService{
       where: {id},
       data,
     })
+  }
+
+  async delete(id: string) {
+    await this.prisma.table.delete({ where: {id} })
   }
 }

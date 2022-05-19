@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Param, Patch, Post} from "@nestjs/common";
+import { Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Patch, Post} from "@nestjs/common";
 import { CreateTableDto } from "./dto/create-table.dto";
 import { TableService } from "./table.service";
 import { ApiOperation, ApiTags } from "@nestjs/swagger";
@@ -44,6 +44,14 @@ export class TableController {
     return this.tableService.update(id, dto);
   }
 
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({
+    summary: 'Remover uma mesa pelo ID',
+  })
+  delete(@Param('id') id: string) {
+    this.tableService.delete(id);
+  }
 }
 
 

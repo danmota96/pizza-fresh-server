@@ -1,12 +1,12 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { NotFoundError } from "rxjs";
-import { PrismaService } from "src/prisma/prisma.service";
-import { CreateTableDto } from "./dto/create-table.dto";
-import { UpdateTableDto } from "./dto/update-table.dto";
-import { Table } from "./entities/table.entity";
+import { Injectable, NotFoundException } from '@nestjs/common';
+import { NotFoundError } from 'rxjs';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateTableDto } from './dto/create-table.dto';
+import { UpdateTableDto } from './dto/update-table.dto';
+import { Table } from './entities/table.entity';
 
 @Injectable()
-export class TableService{
+export class TableService {
   tables: Table[] = [];
 
   constructor(private readonly prisma: PrismaService) {}
@@ -15,34 +15,40 @@ export class TableService{
     return this.prisma.table.findMany();
   }
 
-  async findOne(id: string): Promise<Table> {
+  async findById(id: string): Promise<Table> {
     const record = await this.prisma.table.findUnique({ where: { id } });
 
     if (!record) {
-      throw new NotFoundException(`Registro com o ID '${id}' não encontrado.`)
+      throw new NotFoundException(`Registro com o ID '${id}' não encontrado.`);
     }
 
     return record;
   }
 
+  async findOne(id: string): Promise<Table> {
+    return this.findById(id);
+  }
+
   create(dto: CreateTableDto): Promise<Table> {
-    const table: Table = {...dto};
+    const table: Table = { ...dto };
 
     return this.prisma.table.create({
       data: table,
     });
   }
 
-  update(id: string, dto: UpdateTableDto): Promise<Table> {
-    const data: Partial<Table> = {...dto};
+  async update(id: string, dto: UpdateTableDto): Promise<Table> {
+    await this.findById(id);
+
+    const data: Partial<Table> = { ...dto };
 
     return this.prisma.table.update({
-      where: {id},
+      where: { id },
       data,
-    })
+    });
   }
 
   async delete(id: string) {
-    await this.prisma.table.delete({ where: {id} })
+    await this.prisma.table.delete({ where: { id } });
   }
 }

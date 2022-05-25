@@ -7,8 +7,8 @@ export class CreateProductDto {
     description: 'Nome do produto',
     example: 'Pizza de Mussarela',
   })
-  
   name: string;
+
   @ApiProperty({
     description: 'Descrição do produto',
     example: "Queijo mussarela, massa de ervas finas",
@@ -17,6 +17,10 @@ export class CreateProductDto {
 
   @IsNumber({
     maxDecimalPlaces: 15.35,
+  })
+  @ApiProperty({
+    description: 'Preço do produto',
+    example: "15.00",
   })
   price: number;
 

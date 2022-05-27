@@ -18,10 +18,38 @@ export class OrderService {
         table: {
           connect: {
             number: createOrderDto.tableNumber,
-          }
-        }
+          },
+        },
+        products: {
+          connect: createOrderDto.products.map((productId) => ({
+            id: productId,
+          })),
+        },
+
     };
-    return this.prisma.order.create({ data }).catch(handleError);
+    return this.prisma.order
+      .create({
+        data,
+        select: {
+          id: true,
+          table: {
+            select: {
+              number: true,
+            },
+          },
+          user: {
+            select: {
+              name: true,
+            },
+          },
+          products: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      })
+      .catch(handleError);
   }
 
   findAll() {

@@ -22,4 +22,5 @@ export class CreateOrderDto {
     example: '["40ebad8e-e8b3-4840-8549-cb4120fd84d9","71b03451-3e8a-466c-9d00-799fdf660938"]',
   })
   products: string[];
+  static userId: string;
 }

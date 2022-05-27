@@ -4,9 +4,9 @@ import { User } from "src/user/entities/user.entity";
 
 export class Order {
   id?: string;
-  user?: User
+  user?: User;
   table?: Table;
   createdAt?: Date;
   updatedAt?: Date;
-  products?: Product;
+  products?: Product[];
 }

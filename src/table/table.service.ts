@@ -51,10 +51,4 @@ export class TableService {
 
     await this.prisma.table.delete({ where: { id } });
   }
-
-  handleError(error: Error): undefined{
-    const errorLines = error.message?.split('\n');
-    const lastErrorLine = errorLines[errorLines.length - 1].trim();
-    throw new UnprocessableEntityException(lastErrorLine);
-  }
 }

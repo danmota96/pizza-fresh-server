@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { handleError } from 'src/utils/handle-error.util';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
@@ -30,7 +31,7 @@ export class ProductService {
 
   create(dto: CreateProductDto): Promise<Product> {
     const data: Product = { ...dto };
-    return this.prisma.product.create({ data }).catch(this.handleError)
+    return this.prisma.product.create({ data }).catch(handleError)
   }
 
   async update(id: string, dto: UpdateProductDto): Promise<Product> {

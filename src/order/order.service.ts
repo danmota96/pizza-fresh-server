@@ -6,27 +6,28 @@ import { CreateOrderDto } from './dto/create-order.dto';
 
 @Injectable()
 export class OrderService {
-  constructor(private readonly prisma:PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   create(createOrderDto: CreateOrderDto) {
+    //criar uma nova order de pedido
     const data: Prisma.OrderCreateInput = {
-        user: {
-          connect: {
-            id: createOrderDto.userId,
-          },
+      user: {
+        connect: {
+          id: createOrderDto.userId,
         },
-        table: {
-          connect: {
-            number: createOrderDto.tableNumber,
-          },
+      },
+      table: {
+        connect: {
+          number: createOrderDto.tableNumber,
         },
-        products: {
-          connect: createOrderDto.products.map((productId) => ({
-            id: productId,
-          })),
-        },
-
+      },
+      products: {
+        connect: createOrderDto.products.map((productId) => ({
+          id: productId,
+        })),
+      },
     };
+
     return this.prisma.order
       .create({
         data,
@@ -44,7 +45,8 @@ export class OrderService {
           },
           products: {
             select: {
-              name: true,
+              quantity: true,
+              description: true,
             },
           },
         },
@@ -87,15 +89,6 @@ export class OrderService {
         table: {
           select: {
             number: true,
-          },
-        },
-        products: {
-          select: {
-            id: true,
-            name: true,
-            price: true,
-            image: true,
-            description: true,
           },
         },
       },
